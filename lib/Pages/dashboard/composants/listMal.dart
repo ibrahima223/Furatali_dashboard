@@ -23,7 +23,7 @@ class _ListMalState extends State<ListMal> {
         height: 750.0,
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.5),
               blurRadius: 4,

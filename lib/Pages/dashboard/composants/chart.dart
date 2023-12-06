@@ -26,7 +26,7 @@ class _ChartState extends State<Chart> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("80 %",
+                Text("10 %",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
