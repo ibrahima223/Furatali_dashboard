@@ -2,6 +2,17 @@ class Rappel{
   final String imageUrl, title, dose, heure, userName;
 
   Rappel({required this.userName, required this.imageUrl, required this.title, required this.dose, required this.heure});
+
+  factory Rappel.fromMap(Map<String, dynamic> data) {
+    return Rappel(
+      userName: data['userName'] as String,
+      imageUrl: data['imageUrl'] as String,
+      title: data['title'] as String,
+      dose: data['dose'] as String,
+      heure: data['heure'] as String,
+    );
+  }
+
 }
 List rappels =[
   Rappel(

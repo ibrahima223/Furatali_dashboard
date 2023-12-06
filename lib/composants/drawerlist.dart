@@ -12,7 +12,7 @@ class DrawerListTile extends StatelessWidget{
   final VoidCallback press;
   @override
   Widget build (BuildContext context){
-    return  ListTile(
+    return ListTile(
       dense: true,
       onTap: press,
       horizontalTitleGap: 10,

@@ -1,18 +1,19 @@
-import 'package:dashboard_furatali/Pages/dashboard/composants/addMedoc.dart';
+import 'package:dashboard_furatali/controllers/dashboard_controller.dart';
+import 'package:dashboard_furatali/controllers/medoc_controller.dart';
 import 'package:dashboard_furatali/models/medicament.dart';
 import 'package:dashboard_furatali/responsive.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../AddDirectory/addmedicament.dart';
 import 'MedicamentInfo.dart';
 
 class MyFiels extends StatelessWidget {
   const MyFiels({super.key});
-
   @override
   Widget build(BuildContext context) {
-    final Size _size= MediaQuery.of(context).size;
+    final Size _size = MediaQuery.of(context).size;
+    final controller = context.read<DashboardController>();
     return Column(
       children: [
         Padding(
@@ -20,37 +21,42 @@ class MyFiels extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Médicaments actifs",
+              Text(
+                "Médicaments actifs",
                 style: TextStyle(
                     color: Color(0xff18534f),
                     fontSize: 15,
-                    fontWeight: FontWeight.w500
-                ),
+                    fontWeight: FontWeight.w500),
               ),
               ElevatedButton.icon(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Color(0xff18534f),
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16/(Responsive.isMobile(context)?2: 1)),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16 / (Responsive.isMobile(context) ? 2 : 1)),
                   elevation: 5,
                 ),
-                label: Text("Ajouter médicament",
+                label: Text(
+                  "Ajouter médicament",
                   style: TextStyle(
                       fontSize: 10,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 ),
-                icon: Icon(Icons.add,
+                icon: Icon(
+                  Icons.add,
                   size: 20,
                   color: Colors.white,
                 ),
-                onPressed:(){
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const AjouterMedicament(),
-                    ),
-                  );
+                onPressed: () {
+                  controller.indiceDashPages = 1;
+                  // Navigator.of(context).push(
+                  //   PageRouteBuilder(pageBuilder: (context, _, __) => const AjouterMedicament(), transitionDuration: Duration.zero, reverseTransitionDuration: Duration.zero)
+                  //   // MaterialPageRoute(
+                  //   //   builder: (context) => const AjouterMedicament(),
+                  //   // ),
+                  // );
                 },
               )
             ],
@@ -58,21 +64,26 @@ class MyFiels extends StatelessWidget {
         ),
         SizedBox(height: 10),
         Responsive(
-            mobile: InfoCardGrid(crossAxisCount: _size.width <650? 2:4,
-              childAspectRatio: _size.width<650? 1.3 : 1,
-            ),
-            tablet: InfoCardGrid(),
-            desktop: InfoCardGrid(childAspectRatio: _size.width<1400? 1.1 : 1.4,),
+          mobile: InfoCardGrid(
+            crossAxisCount: _size.width < 650 ? 2 : 4,
+            childAspectRatio: _size.width < 650 ? 1.3 : 1,
+          ),
+          tablet: InfoCardGrid(),
+          desktop: InfoCardGrid(
+            childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
+          ),
           key: GlobalKey(),
         )
-        
       ],
     );
   }
 }
+
 class InfoMedicament extends StatelessWidget {
-  const InfoMedicament({super.key, required this.medicament});
+  const InfoMedicament(
+      {super.key, required this.medicament, required this.color});
   final Medicament medicament;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,10 +95,8 @@ class InfoMedicament extends StatelessWidget {
             BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.5),
                 offset: Offset(0, 0),
-                blurRadius: 4
-            )
-          ]
-      ),
+                blurRadius: 4)
+          ]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,40 +109,36 @@ class InfoMedicament extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                    color: medicament.color.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: Image.asset(medicament.imageUrl),
+                    color: color.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10)),
+                child: Image.asset(medicament.imageUrl ?? ""),
               ),
             ],
           ),
           Text(
-            medicament.title,
+            medicament.title ?? "",
             style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w400
-            ),
+                color: Colors.black, fontSize: 15, fontWeight: FontWeight.w400),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          ProgressBar(color: medicament.color, percentage: medicament.pourcentage),
+          ProgressBar(color: color, percentage: medicament.pourcentage),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(medicament.dosage,
+              Text(
+                medicament.dosage ?? "",
                 style: TextStyle(
-                  color: Colors.black,
+                    color: Colors.black,
                     fontSize: 15,
-                    fontWeight: FontWeight.w500
-                ),
+                    fontWeight: FontWeight.w500),
               ),
-              Text(medicament.frequence,
+              Text(
+                medicament.frequence ?? "",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 10,
-                    fontWeight: FontWeight.w600
-                ),
+                    fontWeight: FontWeight.w600),
               )
             ],
           )
@@ -142,29 +147,31 @@ class InfoMedicament extends StatelessWidget {
     );
   }
 }
- class InfoCardGrid extends StatelessWidget {
-   const InfoCardGrid({super.key, this.crossAxisCount= 4, this.childAspectRatio=1});
-   final int crossAxisCount;
-   final double childAspectRatio ;
-   @override
-   Widget build(BuildContext context) {
-     return  Padding(
-       padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
-       child: GridView.builder(
-           itemCount: medicaments.length,
-           physics: NeverScrollableScrollPhysics(),
-           shrinkWrap: true,
-           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-               crossAxisCount: crossAxisCount,
-               crossAxisSpacing: 20,
-               mainAxisSpacing: 16,
-               childAspectRatio: childAspectRatio
-           ),
-           itemBuilder: (context, index)=>InfoMedicament(medicament: medicaments[index],)
-       ),
-     );
-   }
- }
 
-
-
+class InfoCardGrid extends StatelessWidget {
+  InfoCardGrid(
+      {super.key, this.crossAxisCount = 4, this.childAspectRatio = 1});
+  final int crossAxisCount;
+  final double childAspectRatio;
+  final color = [Colors.blue, Colors.red, Colors.green, Colors.yellow];
+  @override
+  Widget build(BuildContext context) {
+    final medicaments = context.watch<MedocController>().medocDash;
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 15),
+      child: GridView.builder(
+          itemCount: medicaments.length,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 16,
+              childAspectRatio: childAspectRatio),
+          itemBuilder: (context, index) => InfoMedicament(
+                medicament: medicaments[index],
+                color: color[index],
+              )),
+    );
+  }
+}

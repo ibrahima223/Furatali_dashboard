@@ -1,31 +1,68 @@
 import 'package:dashboard_furatali/HomePage.dart';
-import 'package:dashboard_furatali/Pages/dashboard/AddDirectory/addmedicament.dart';
-import 'package:dashboard_furatali/dashboard_controller.dart';
+import 'package:dashboard_furatali/Pages/dashboard/connexion.dart';
+import 'package:dashboard_furatali/Pages/dashboard/dashboardscreen.dart';
+import 'package:dashboard_furatali/controllers/dashboard_controller.dart';
+import 'package:dashboard_furatali/controllers/mal_controller.dart';
+import 'package:dashboard_furatali/controllers/medoc_controller.dart';
+import 'package:dashboard_furatali/controllers/side_bar_controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import 'Pages/dashboard/AddDirectory/addMaladie.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<DashboardController>(
+          create: (context) => DashboardController(),
+        ),
+        ChangeNotifierProvider<MalController>(
+          create: (context) => MalController(),
+        ),
+        ChangeNotifierProvider<MedocController>(
+          create: (context) => MedocController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SideBarController(),
+        )
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Dashboard',
+      initialRoute: '',
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/first': (context) => const DashboardScreen(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/second': (context) => const Connexion(),
+      },
       debugShowCheckedModeBanner: false,
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context)=>DashboardController()
-          )
-        ],
-        child: const HomePage(),
-      ),
+      home:StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, AsyncSnapshot<User?> snapshot) {
+          if(snapshot.hasData && snapshot.data!= null){
+            return HomePage();
+          }
+          return Connexion();
+        },
+      )
     );
   }
 }

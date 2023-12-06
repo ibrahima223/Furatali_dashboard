@@ -3,18 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddMaladie extends StatefulWidget {
-  const AddMaladie({super.key});
+class UpdateMaladie extends StatefulWidget {
+  const UpdateMaladie({super.key});
 
   @override
-  State<AddMaladie> createState() => _AddMaladieState();
+  State<UpdateMaladie> createState() => _UpdateMaladieState();
 }
 
-class _AddMaladieState extends State<AddMaladie> {
+class _UpdateMaladieState extends State<UpdateMaladie> {
   String? selectedType;
   FocusNode myFocusNode = new FocusNode();
   var symptome;
-  List<String> symptomes = [
+  List<String> symptomes=[
     'Fièvre',
     'Fatigue',
     'Douleurs corporelles',
@@ -30,7 +30,7 @@ class _AddMaladieState extends State<AddMaladie> {
     'Palpitations'
   ];
   var traitement;
-  List<String> traitements = [
+  List<String> traitements=[
     "Médicaments",
     "Chirurgie",
     "Thérapie physique",
@@ -42,7 +42,7 @@ class _AddMaladieState extends State<AddMaladie> {
       padding: const EdgeInsets.all(10),
       child: Expanded(
         child: Container(
-          margin: EdgeInsets.all(20),
+          margin: const EdgeInsets.all(20),
           width: 900.0,
           height: 900.0,
           decoration: BoxDecoration(
@@ -51,17 +51,18 @@ class _AddMaladieState extends State<AddMaladie> {
                 BoxShadow(
                     color: Color.fromRGBO(0, 0, 0, 0.5),
                     blurRadius: 4,
-                    offset: Offset(0, 0))
+                    offset: Offset(0, 0)
+                )
               ],
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20)
+          ),
           child: Column(
             children: [
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Ajouter une maladie',
+                  Text('Modifier une maladie',
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -78,7 +79,8 @@ class _AddMaladieState extends State<AddMaladie> {
                   height: 700.0,
                   decoration: BoxDecoration(
                       color: Color(0xff18534f),
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(20)
+                  ),
                   child: Column(
                     children: [
                       Padding(
@@ -86,22 +88,25 @@ class _AddMaladieState extends State<AddMaladie> {
                         child: TextField(
                           cursorColor: Colors.blue,
                           decoration: InputDecoration(
-                              border: OutlineInputBorder(),
+                              border: OutlineInputBorder(
+                              ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.lightGreen),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreen
+                                ),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.lightGreen),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreen
+                                ),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Nom de la maladie',
                               hintStyle: TextStyle(
-                                  color: myFocusNode.hasFocus
-                                      ? Colors.blue
-                                      : Colors.black54)),
+                                  color: myFocusNode.hasFocus ? Colors.blue : Colors.black54
+                              )
+                          ),
                         ),
                       ),
                       Padding(
@@ -112,8 +117,7 @@ class _AddMaladieState extends State<AddMaladie> {
                           selectedItemBuilder: (BuildContext context) {
                             return symptomes.map<Widget>((String item) {
                               print("$item");
-                              return DropdownMenuItem(
-                                  value: item, child: Text(item));
+                              return DropdownMenuItem(value: item, child: Text(item));
                             }).toList();
                           },
                           items: symptomes.map((item) {
@@ -122,25 +126,27 @@ class _AddMaladieState extends State<AddMaladie> {
                               child: Text(item),
                             );
                           }).toList(),
-                          onChanged: (selectedItem) => setState(
-                            () {
+                          onChanged: (selectedItem)=> setState(
+                                () {
                               symptome = selectedItem!;
                             },
                           ),
                           decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide.none),
+                                  borderSide: BorderSide.none
+                              ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.lightGreen),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreen
+                                ),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Symptômes',
                               hintStyle: TextStyle(
-                                  color: myFocusNode.hasFocus
-                                      ? Colors.blue
-                                      : Colors.black54)),
+                                  color: myFocusNode.hasFocus ? Colors.blue : Colors.black54
+                              )
+                          ),
                         ),
                       ),
                       Padding(
@@ -151,8 +157,7 @@ class _AddMaladieState extends State<AddMaladie> {
                           selectedItemBuilder: (BuildContext context) {
                             return traitements.map<Widget>((String item) {
                               print("$item");
-                              return DropdownMenuItem(
-                                  value: item, child: Text(item));
+                              return DropdownMenuItem(value: item, child: Text(item));
                             }).toList();
                           },
                           items: traitements.map((item) {
@@ -161,52 +166,55 @@ class _AddMaladieState extends State<AddMaladie> {
                               child: Text(item),
                             );
                           }).toList(),
-                          onChanged: (selectedItem) => setState(
-                            () {
+                          onChanged: (selectedItem)=> setState(
+                                () {
                               traitement = selectedItem!;
                             },
                           ),
                           decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide.none),
+                                  borderSide: BorderSide.none
+                              ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.lightGreen),
+                                borderSide: const BorderSide(
+                                    color: Colors.lightGreen
+                                ),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Traitements',
                               hintStyle: TextStyle(
-                                  color: myFocusNode.hasFocus
-                                      ? Colors.blue
-                                      : Colors.black54)),
+                                  color: myFocusNode.hasFocus ? Colors.blue : Colors.black54
+                              )
+                          ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(30),
-                        child: TextField(
+                        child:TextField(
                           cursorColor: Colors.blue,
                           keyboardType: TextInputType.multiline,
                           maxLines: 7,
                           decoration: InputDecoration(
                             isDense: true,
                             focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.lightGreen),
+                              borderSide: const BorderSide(
+                                  color: Colors.lightGreen
+                              ),
                             ),
                             enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.lightGreen),
+                              borderSide: const BorderSide(
+                                  color: Colors.lightGreen
+                              ),
                             ),
                             filled: true,
                             fillColor: Colors.white,
                             hintText: "Description",
                             hintStyle: TextStyle(
-                                color: myFocusNode.hasFocus
-                                    ? Colors.blue
-                                    : Colors.black54),
+                                color: myFocusNode.hasFocus ? Colors.blue : Colors.black54
+                            ),
                           ),
-                        ),
+                        ) ,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -243,16 +251,16 @@ class _AddMaladieState extends State<AddMaladie> {
                                 //   validation("Erreur", "Une erreur s'est produite lors de la création",'assets/images/err.png');
                                 // }
                               },
-                              child: Text(
-                                "Ajouter",
+                              child: Text("Modifier",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 20),
+                                    fontSize: 20
+                                ),
                               ),
                             ),
                           ),
-                          Padding(
+                               Padding(
                             padding: EdgeInsets.all(20),
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(

@@ -7,7 +7,6 @@ class BadgeIcone extends StatefulWidget {
   @override
   State<BadgeIcone> createState() => _BadgeIconeState();
 }
-
 class _BadgeIconeState extends State<BadgeIcone> {
   @override
   Widget build(BuildContext context) {
